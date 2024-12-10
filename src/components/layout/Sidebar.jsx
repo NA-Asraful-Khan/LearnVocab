@@ -1,37 +1,13 @@
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
-import { BsSpeedometer2 } from "react-icons/bs";
 import { FaSignInAlt } from "react-icons/fa";
-import { GiSettingsKnobs } from "react-icons/gi";
 
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { sidebarItemsGenerator } from "../../utils/sidebarItemGenerator";
+import { adminPaths } from "../../routes/admin.routes";
 
 const Sidebar = ({ isExpanded, setIsExpanded }) => {
-  const SidebarRoute = [
-    {
-      icon: <BsSpeedometer2 />,
-      title: "Dashboard",
-      path: "/dashboard",
-      access: true,
-    },
-
-    {
-      icon: <GiSettingsKnobs />,
-      title: "Home",
-      path: "",
-      content: true,
-      access: true,
-      subCategory: [
-        {
-          icon: <GiSettingsKnobs />,
-          title: "Lessons",
-          path: "/lessons",
-          access: true,
-        },
-      ],
-    },
-  ];
+  const SidebarRoute = sidebarItemsGenerator(adminPaths, "admin");
 
   const [menuItem, setMenuItem] = useState(null);
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -144,7 +120,7 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
                             : "translate-x-[-10px] hidden"
                         }`}
                       >
-                        {item.title}
+                        {item.name}
                       </span>
                     </button>
                     {(isExpanded || isHovered) &&
@@ -161,68 +137,67 @@ const Sidebar = ({ isExpanded, setIsExpanded }) => {
                         : "max-h-0 opacity-0"
                     } `}
                   >
-                    {item?.subCategory
+                    {item?.children
                       ?.filter((subItem) => subItem.access)
                       .map((subItem, subIndex) => (
                         <li
                           key={subIndex}
                           className="flex items-center mb-2 w-full"
                         >
-                          <Link to={`/admin${item.path}${subItem.path}`}>
-                            <button
-                              onClick={() => {
-                                handleLinkClick(index);
-                              }}
-                              className={`flex justify-center items-center gap-2 text-xl hover:text-blue-500 ${
-                                menuItem === subIndex && "text-blue-500"
-                              }`}
-                            >
-                              {subItem.icon}
-                              <span
-                                className={`${
-                                  isExpanded || isHovered
-                                    ? "opacity-100 block"
-                                    : "opacity-0 hidden"
-                                } transition-opacity duration-300 transform ${
-                                  isExpanded || isHovered
-                                    ? "translate-x-0"
-                                    : "translate-x-[-10px]"
-                                }`}
-                              >
-                                {subItem.title}
-                              </span>
-                            </button>
-                          </Link>
+                          {subItem.icon}
+                          <span
+                            className={`${
+                              isExpanded || isHovered
+                                ? "opacity-100 block"
+                                : "opacity-0 hidden"
+                            } transition-opacity duration-300 transform ${
+                              isExpanded || isHovered
+                                ? "translate-x-0"
+                                : "translate-x-[-10px]"
+                            }`}
+                          >
+                            {subItem.name}
+                          </span>
                         </li>
                       ))}
                   </ul>
                 </>
               ) : (
-                <Link to={`/admin${item.path}`}>
-                  <button
-                    className={`flex justify-center items-center gap-2 text-lg hover:text-blue-500 ${
-                      menuItem === index && "text-blue-500"
+                // <Link to={`/admin${item.path}`}>
+                //   <button
+                //     className={`flex justify-center items-center gap-2 text-lg hover:text-blue-500 ${
+                //       menuItem === index && "text-blue-500"
+                //     }`}
+                //     onClick={() => {
+                //       handleLinkClick(index);
+                //     }}
+                //   >
+
+                //   </button>
+                // </Link>
+                <button
+                  className={`flex justify-center items-center gap-2 text-lg hover:text-blue-500 ${
+                    menuItem === index && "text-blue-500"
+                  }`}
+                  onClick={() => {
+                    handleLinkClick(index);
+                  }}
+                >
+                  <span className="min-w-[30px]">{item.icon}</span>
+                  <span
+                    className={`${
+                      isExpanded || isHovered
+                        ? "opacity-100 block"
+                        : "opacity-0 hidden"
+                    } transition-opacity duration-300 transform ${
+                      isExpanded || isHovered
+                        ? "translate-x-0"
+                        : "translate-x-[-10px]"
                     }`}
-                    onClick={() => {
-                      handleLinkClick(index);
-                    }}
                   >
-                    <span className="min-w-[30px]">{item.icon}</span>
-                    <span
-                      className={`${
-                        isExpanded || isHovered
-                          ? "opacity-100 block"
-                          : "opacity-0 hidden"
-                      } transition-opacity duration-300 transform ${
-                        isExpanded || isHovered
-                          ? "translate-x-0"
-                          : "translate-x-[-10px]"
-                      }`}
-                    >
-                      {item.title}
-                    </span>
-                  </button>
-                </Link>
+                    {item.name}
+                  </span>
+                </button>
               )}
             </li>
           ))}

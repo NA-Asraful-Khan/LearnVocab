@@ -3,6 +3,7 @@ import App from "../App";
 
 import { routeGenerator } from "../utils/routesGenerator";
 import { adminPaths } from "./admin.routes";
+import Error from "../pages/Error/Error";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: "<Register />",
+  },
+  {
+    path: "*",
+    element: <Error />,
   },
 ]);
 

@@ -1,3 +1,5 @@
+import { BsSpeedometer2 } from "react-icons/bs";
+import { GiSettingsKnobs } from "react-icons/gi";
 import { Navigate } from "react-router-dom";
 
 export const adminPaths = [
@@ -10,17 +12,20 @@ export const adminPaths = [
     name: "Dashboard",
     path: "dashboard",
     element: "<FacultyDashboard />",
+    icon: <BsSpeedometer2 />,
   },
   {
     name: "Lessons",
+    icon: <GiSettingsKnobs />,
     path: "",
     children: [
       {
         name: "Lessons",
         path: "lessons",
+        icon: <GiSettingsKnobs />,
         children: [
           {
-            name: "lessons",
+            name: "",
             path: "",
             element: "All Lessons",
           },
