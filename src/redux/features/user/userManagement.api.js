@@ -83,10 +83,11 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
 
     changeUserRole: builder.mutation({
-      query: (id) => {
+      query: (data) => {
         return {
-          url: `/users/${id}`,
+          url: `/users/${data?.id}`,
           method: "PATCH",
+          body: data?.data,
         };
       },
       invalidatesTags: [

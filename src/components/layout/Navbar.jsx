@@ -35,7 +35,7 @@ const Navbar = ({ setIsExpanded }) => {
   }, []);
 
   return (
-    <div>
+    <div className="static top-0 mb-4">
       <nav className="bg-white shadow-md p-4">
         <div className="container mx-auto flex justify-between items-center">
           {/* Left Side */}

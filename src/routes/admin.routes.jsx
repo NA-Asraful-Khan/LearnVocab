@@ -1,6 +1,9 @@
 import { BsSpeedometer2 } from "react-icons/bs";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { Navigate } from "react-router-dom";
+import UserList from "../pages/admin/userManagement/UserList";
+import UserCreate from "../pages/admin/userManagement/UserCreate";
+import UserEdit from "../pages/admin/userManagement/UserEdit";
 
 export const adminPaths = [
   {
@@ -15,24 +18,29 @@ export const adminPaths = [
     icon: <BsSpeedometer2 />,
   },
   {
-    name: "Lessons",
+    name: "Management",
     icon: <GiSettingsKnobs />,
     path: "",
     children: [
       {
-        name: "Lessons",
-        path: "lessons",
+        name: "User Management",
+        path: "user_management",
         icon: <GiSettingsKnobs />,
         children: [
           {
             name: "",
             path: "",
-            element: "All Lessons",
+            element: <UserList />,
           },
           {
-            name: "Single Lesson",
-            path: ":lessonnumber",
-            element: "singleLesson",
+            name: "Create",
+            path: "create",
+            element: <UserCreate />,
+          },
+          {
+            name: "Edit",
+            path: ":userId",
+            element: <UserEdit />,
           },
         ],
       },

@@ -6,11 +6,11 @@ export default function Footer({ isExpanded }) {
     <div
       className={`px-3 md:pr-8 lg:pr-12 ${
         isExpanded ? "sm:pl-3 md:pl-[17rem] lg:pl-72" : "sm:pl-3 md:pl-24"
-      } fixed bottom-0`}
+      } static bottom-0 w-full mt-4`}
     >
       <footer className="bg-white shadow-inner mt-auto">
-        <div className="max-w-7xl mx-auto pt-12 px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex flex-col items-center md:items-start">
               <div className="flex items-center space-x-2">
                 <BiBook className="h-6 w-6 text-indigo-600" />
@@ -27,7 +27,7 @@ export default function Footer({ isExpanded }) {
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                 Contact
               </h3>
-              <div className="mt-4 space-y-2">
+              <div className="mt-2 space-y-2">
                 <a
                   href="mailto:n.a.asraful.khan@gmail.com"
                   className="text-base text-gray-500 hover:text-indigo-600 flex items-center"
@@ -50,7 +50,7 @@ export default function Footer({ isExpanded }) {
               <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                 Legal
               </h3>
-              <div className="mt-4 space-y-2">
+              <div className="mt-2 space-y-2">
                 <a
                   href="#"
                   className="text-base text-gray-500 hover:text-indigo-600"
@@ -66,7 +66,7 @@ export default function Footer({ isExpanded }) {
               </div>
             </div>
           </div>
-          <div className="mt-8 border-t border-gray-200 pt-8">
+          <div className="mt-2 mb-2 border-t border-gray-200 ">
             <p className="text-center text-base text-gray-400">
               &copy; 2024 日本Learn. All rights reserved.
             </p>
