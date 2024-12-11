@@ -6,6 +6,7 @@ import { adminPaths } from "./admin.routes";
 import Error from "../pages/Error/Error";
 import Login from "../pages/auth/Login";
 import { userPaths } from "./user.routes.jsx";
+import Register from "../pages/auth/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    element: "<Register />",
+    element: <Register />,
   },
   {
     path: "*",

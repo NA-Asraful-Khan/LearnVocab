@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { BiBook, BiLock } from "react-icons/bi";
 import { toast } from "react-toastify";
@@ -136,6 +136,15 @@ export default function Login() {
             User: user@demo.com / user123
           </div>
         </form>
+        <p>
+          New Here?{" "}
+          <Link
+            className="underline text-indigo-500 font-bold"
+            to={"/register"}
+          >
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );
