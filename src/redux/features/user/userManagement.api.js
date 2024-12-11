@@ -17,7 +17,7 @@ const userManagementApi = baseApi.injectEndpoints({
       },
       providesTags: [{ type: "user" }],
     }),
-    getSinglelStudent: builder.query({
+    getSinglelUser: builder.query({
       query: (params) => {
         return {
           url: `/users/${params}`,
@@ -31,7 +31,7 @@ const userManagementApi = baseApi.injectEndpoints({
       },
       providesTags: [{ type: "user" }],
     }),
-    getAllStudentsByPagination: builder.query({
+    getAllUsersByPagination: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
 
@@ -54,7 +54,7 @@ const userManagementApi = baseApi.injectEndpoints({
       },
       providesTags: [{ type: "user" }],
     }),
-    addStudent: builder.mutation({
+    addUser: builder.mutation({
       query: (data) => {
         return {
           url: "/users/create-user",
@@ -64,7 +64,7 @@ const userManagementApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [{ type: "user" }],
     }),
-    updateStudent: builder.mutation({
+    updateUser: builder.mutation({
       query: ({ data, id }) => {
         return {
           url: `users/${id}`,
@@ -74,7 +74,7 @@ const userManagementApi = baseApi.injectEndpoints({
       },
       invalidatesTags: [{ type: "user" }],
     }),
-    deleteStudent: builder.mutation({
+    deleteUser: builder.mutation({
       query: (id) => ({
         url: `users/${id}`,
         method: "DELETE",
@@ -97,12 +97,12 @@ const userManagementApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetAllStudentsQuery,
-  useGetSinglelStudentQuery,
-  useGetAllStudentsByPaginationQuery,
-  useAddStudentMutation,
-  useUpdateStudentMutation,
-  useDeleteStudentMutation,
+  useGetAllUsersQuery,
+  useGetSinglelUserQuery,
+  useGetAllUsersByPaginationQuery,
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
 
   useChangeUserRoleMutation,
 } = userManagementApi;

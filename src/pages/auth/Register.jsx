@@ -1,33 +1,52 @@
 import { useState } from "react";
 import { BiBook, BiLock, BiUpload, BiUser } from "react-icons/bi";
 import { MdMail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAddUserMutation } from "../../redux/features/user/userManagement.api";
 
 export default function Register() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: "User One",
+    email: "user@mail.com",
+    password: "vocabwebsite!@",
     photo:
       "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   });
   const [isLoading, setIsLoading] = useState(false);
-  //   const navigate = useNavigate();
-  //   const { register } = useAuth();
+  const navigate = useNavigate();
+  const [register] = useAddUserMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    console.log(formData);
+    const finalData = {
+      pasword: formData.password,
+      user: {
+        name: formData.name,
+        email: formData.email,
+      },
+    };
+    try {
+      const res = await register(finalData);
 
-    // try {
-    //   await register(formData);
-    //   toast.success("Registration successful!");
-    //   navigate("/lessons");
-    // } catch (error) {
-    //   toast.error(error.message || "Failed to register");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      if (!res.error) {
+        toast.success("Registration successful!");
+      }
+      navigate("/login");
+
+      if (!res.error) {
+        toast.success("Registration successful!");
+        navigate("/login");
+      } else {
+        toast.error(res.error.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "Failed to register");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
