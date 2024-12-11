@@ -3,7 +3,7 @@ import { tagTypes } from "../../constant/tagType";
 import { toast } from "react-toastify";
 import { logout, setUser } from "../features/auth/auth.slice";
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://unimanagement.na-api-bundle.cyou/api/v1",
+  baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token;
@@ -22,13 +22,10 @@ const baseQueryWithRefreshToken = async (args, api, extraOptions) => {
   }
 
   if (result?.error?.status === 401) {
-    const res = await fetch(
-      "https://unimanagement.na-api-bundle.cyou/api/v1/auth/refresh-token",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    const res = await fetch("http://localhost:5000/api/v1/auth/refresh-token", {
+      method: "POST",
+      credentials: "include",
+    });
     const data = await res.json();
     if (data?.data?.accessToken) {
       const user = api.getState().auth.user;

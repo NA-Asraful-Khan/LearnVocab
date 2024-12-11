@@ -4,6 +4,7 @@ import App from "../App";
 import { routeGenerator } from "../utils/routesGenerator";
 import { adminPaths } from "./admin.routes";
 import Error from "../pages/Error/Error";
+import Login from "../pages/auth/Login";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
   //   },
   {
     path: "/login",
-    element: "<Login />",
+    element: <Login />,
   },
   {
     path: "/change-password",

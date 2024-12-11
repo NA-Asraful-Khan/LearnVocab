@@ -1,35 +1,38 @@
 import { FiMenu } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import ProfileDropDownCard from "./ProfileDropDownCard/ProfileDropDownCard";
+import { useEffect, useRef, useState } from "react";
+import { BiBook } from "react-icons/bi";
 
 const Navbar = ({ setIsExpanded }) => {
-  //   const [dropdownOpen, setDropdownOpen] = useState(false);
-  //   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  //   const dropdownRef = useRef(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  // const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  //   const toggleDropdown = () => {
-  //     setDropdownOpen(!dropdownOpen);
-  //   };
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
-  //   const toggleSearchModal = () => {
-  //     setSearchModalOpen(!searchModalOpen);
-  //   };
+  // const toggleSearchModal = () => {
+  //   setSearchModalOpen(!searchModalOpen);
+  // };
 
-  //   const closeDropdown = () => {
-  //     setDropdownOpen(false);
-  //   };
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
 
-  //   useEffect(() => {
-  //     const handleClickOutside = (event) => {
-  //       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-  //         closeDropdown();
-  //       }
-  //     };
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        closeDropdown();
+      }
+    };
 
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //     return () => {
-  //       document.removeEventListener("mousedown", handleClickOutside);
-  //     };
-  //   }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div>
@@ -48,28 +51,21 @@ const Navbar = ({ setIsExpanded }) => {
           </div>
           {/* Left Side */}
           <div className="flex items-center space-x-4">
-            {/* <button className="text-gray-600 hover:text-gray-800 focus:outline-none">
-              <FiMenu size={24} />
-            </button> */}
-            <Link to={"/"}>
-              {/* <img className="max-w-[80px]" src="/Dhuum_Logo.png" alt="" /> */}
-              HOME
+            <Link to={"/admin"}>
+              <div className="flex flex-col items-center md:items-start">
+                <div className="flex items-center space-x-2">
+                  <BiBook className="h-6 w-6 text-indigo-600" />
+                  <span className="text-xl font-bold text-gray-900">
+                    日本Learn
+                  </span>
+                </div>
+              </div>
             </Link>
           </div>
 
           {/* Right Side */}
           <div className="flex items-center space-x-4">
-            {/* <FiSearch
-              className="text-gray-600 hover:text-gray-800 cursor-pointer"
-              size={24}
-              onClick={toggleSearchModal}
-            />
-            <ThemeToggle />
-            <FiBell
-              className="text-gray-600 hover:text-gray-800 cursor-pointer relative"
-              size={24}
-            /> */}
-            {/* <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={dropdownRef}>
               <img
                 onClick={toggleDropdown}
                 className="w-8 h-8 rounded-full cursor-pointer"
@@ -80,9 +76,7 @@ const Navbar = ({ setIsExpanded }) => {
                 dropdownOpen={dropdownOpen}
                 onClose={closeDropdown}
               />
-             
-            </div> */}
-            <div className="relative">P</div>
+            </div>
           </div>
         </div>
       </nav>

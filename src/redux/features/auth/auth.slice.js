@@ -10,19 +10,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { user, token, needsPasswordChange } = action.payload;
+      const { user, token } = action.payload;
       state.user = user;
       state.token = token;
-      if (state.user) {
-        state.user.needsPasswordChange = needsPasswordChange;
-      }
-    },
-    changeNeedPasswordChangeStatus: (state, action) => {
-      const { needsPasswordChange } = action.payload;
-
-      if (state.user) {
-        state.user.needsPasswordChange = needsPasswordChange;
-      }
     },
 
     logout: (state) => {
