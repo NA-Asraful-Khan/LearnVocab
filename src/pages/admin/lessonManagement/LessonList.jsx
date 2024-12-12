@@ -18,7 +18,7 @@ export default function LessonList() {
   const { data, isLoading, isFetching } = useGetAllLessonsByPaginationQuery([
     { name: "limit", value: pageSize },
     { name: "page", value: page },
-    { name: "sort", value: "-id" },
+    { name: "sort", value: "createdAt" },
     ...params,
   ]);
   const [deleteLesson] = useDeleteLessonMutation();

@@ -5,9 +5,31 @@ import { FaSignInAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemGenerator";
 import { adminPaths } from "../../routes/admin.routes";
+import { useSelector } from "react-redux";
+import { useCurrentToken } from "../../redux/features/auth/auth.slice";
+import { verifyToken } from "../../utils/verifyToken";
+import { userPaths } from "../../routes/user.routes";
 
 const Sidebar = ({ isExpanded, setIsExpanded }) => {
-  const SidebarRoute = sidebarItemsGenerator(adminPaths, "admin");
+  const token = useSelector(useCurrentToken);
+  let user;
+  if (token) {
+    user = verifyToken(token);
+  }
+
+  let SidebarRoute;
+  switch (user?.role) {
+    case "admin":
+      SidebarRoute = sidebarItemsGenerator(adminPaths, "admin");
+      break;
+
+    case "user":
+      SidebarRoute = sidebarItemsGenerator(userPaths, "user");
+      break;
+
+    default:
+      break;
+  }
 
   const [menuItem, setMenuItem] = useState(null);
   const [toggleMenu, setToggleMenu] = useState(false);

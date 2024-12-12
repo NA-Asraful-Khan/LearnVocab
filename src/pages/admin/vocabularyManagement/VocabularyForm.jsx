@@ -33,7 +33,7 @@ export default function VocabularyForm({ id, defaultData }) {
       pronunciation: formData.pronunciation,
       meaning: formData.meaning,
       whenToSay: formData.whenToSay,
-      lessonNo: Number(formData.lessonNo),
+      lessonNo: Number(formData.lessonId),
     };
     try {
       let res;
@@ -70,7 +70,7 @@ export default function VocabularyForm({ id, defaultData }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-y-auto">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
           {id ? "Edit" : "Add"} New Vocabulary

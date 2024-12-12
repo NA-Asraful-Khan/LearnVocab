@@ -1,6 +1,8 @@
 import { BsSpeedometer2 } from "react-icons/bs";
 import { GiSettingsKnobs } from "react-icons/gi";
 import { Navigate } from "react-router-dom";
+import Lessons from "../pages/user/Lesson/Lessons";
+import LessonDetails from "../pages/user/Lesson/LessonDetails";
 
 export const userPaths = [
   {
@@ -17,24 +19,20 @@ export const userPaths = [
   {
     name: "Lessons",
     icon: <GiSettingsKnobs />,
-    path: "",
+    path: "lessons",
+    multimenu: false,
     children: [
       {
         name: "Lessons",
-        path: "lessons",
+        path: "",
         icon: <GiSettingsKnobs />,
-        children: [
-          {
-            name: "",
-            path: "",
-            element: "All Lessons",
-          },
-          {
-            name: "Single Lesson",
-            path: ":lessonnumber",
-            element: "singleLesson",
-          },
-        ],
+        element: <Lessons />,
+      },
+      {
+        name: "Lessons",
+        path: ":lessonId",
+        icon: <GiSettingsKnobs />,
+        element: <LessonDetails />,
       },
     ],
   },

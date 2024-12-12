@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export const sidebarItemsGenerator = (items, role) => {
   const sidebarItems = items.reduce((acc, item) => {
-    if (item.path && item.name && !item.multimenu) {
+    if (item.path && item.name && !item.children) {
       acc.push({
         key: item.path,
         name: <NavLink to={`/${role}/${item.path}`}>{item.name}</NavLink>,
@@ -10,7 +10,15 @@ export const sidebarItemsGenerator = (items, role) => {
         access: true,
       });
     }
-    if (item.children && item.multimenu) {
+    if (item.children && item.multimenu === false) {
+      acc.push({
+        key: item.path,
+        name: <NavLink to={`/${role}/${item.path}`}>{item.name}</NavLink>,
+        icon: item.icon,
+        access: true,
+      });
+    }
+    if (item.children && item.multimenu === true) {
       acc.push({
         key: item.name,
         name: item.name,
