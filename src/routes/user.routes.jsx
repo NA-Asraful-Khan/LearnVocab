@@ -3,6 +3,9 @@ import { GiSettingsKnobs } from "react-icons/gi";
 import { Navigate } from "react-router-dom";
 import Lessons from "../pages/user/Lesson/Lessons";
 import LessonDetails from "../pages/user/Lesson/LessonDetails";
+import UserDashboard from "../pages/user/Dashboard/UserDashboard";
+import Tutorials from "../pages/user/Tutorial/Tutorials";
+import { RiHeading } from "react-icons/ri";
 
 export const userPaths = [
   {
@@ -13,7 +16,7 @@ export const userPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    element: "<FacultyDashboard />",
+    element: <UserDashboard />,
     icon: <BsSpeedometer2 />,
   },
   {
@@ -35,5 +38,11 @@ export const userPaths = [
         element: <LessonDetails />,
       },
     ],
+  },
+  {
+    name: "Tutorial",
+    path: "tutorial",
+    element: <Tutorials />,
+    icon: <RiHeading />,
   },
 ];

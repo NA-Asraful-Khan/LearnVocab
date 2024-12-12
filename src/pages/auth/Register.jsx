@@ -20,7 +20,6 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log(formData);
     const finalData = {
       pasword: formData.password,
       user: {

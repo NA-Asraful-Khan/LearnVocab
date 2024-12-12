@@ -12,6 +12,10 @@ export default function Lessons() {
   const [finalData, setFinalData] = useState([]);
   const pageSize = 5;
 
+  useEffect(() => {
+    setFinalData([]);
+    setHasMore(true);
+  }, []);
   // Get All Lesson Data
   const { data, isLoading, isFetching } = useGetAllLessonsByPaginationQuery([
     { name: "limit", value: pageSize },
@@ -22,19 +26,22 @@ export default function Lessons() {
 
   //lessonData
   const lessons = data?.data;
+  //pagination Data
+  const pagination = data?.pagination;
 
   useEffect(() => {
-    if (lessons && Array.isArray(lessons)) {
-      const pagination = data?.pagination || { page: 0, totalPage: 1 };
-      setFinalData((prevData) => [...prevData, ...lessons]);
-      setHasMore(pagination.page < pagination.totalPage);
-    } else {
-      console.warn("Unexpected lessons format:", lessons);
+    if (lessons) {
+      if (Array.isArray(lessons)) {
+        setFinalData((prevData) => [...prevData, ...lessons]);
+        setHasMore(pagination?.page !== pagination?.totalPage);
+      } else {
+        console.warn("newData is not an array:", lessons);
+      }
     }
-  }, [lessons, data?.pagination]);
+  }, [lessons, pagination]);
 
   const handleFetchMore = () => {
-    if (hasMore) setPage((prevPage) => prevPage + 1);
+    setPage((prevPage) => prevPage + 1);
   };
 
   return (
@@ -49,9 +56,7 @@ export default function Lessons() {
         next={handleFetchMore}
         hasMore={hasMore}
         loader={
-          hasMore && (isLoading || isFetching) ? (
-            <Loader size="lg" color="red" />
-          ) : null
+          isLoading || isFetching ? <Loader size="lg" color="red" /> : null
         }
         scrollableTarget="scrollableDiv"
       >

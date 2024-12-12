@@ -7,6 +7,8 @@ import Error from "../pages/Error/Error";
 import Login from "../pages/auth/Login";
 import { userPaths } from "./user.routes.jsx";
 import Register from "../pages/auth/Register.jsx";
+import ChangePassword from "../pages/auth/ChangePassword.jsx";
+import ProtectedRoute from "../components/layout/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -25,30 +27,30 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <App />,
+    element: (
+      <ProtectedRoute role="admin">
+        <App />
+      </ProtectedRoute>
+    ),
     children: routeGenerator(adminPaths),
   },
   {
     path: "/user",
-    element: <App />,
+    element: (
+      <ProtectedRoute role="user">
+        <App />
+      </ProtectedRoute>
+    ),
     children: routeGenerator(userPaths),
   },
-  //   {
-  //     path: "/faculty",
-  //     element: (
-  //       <ProtectedRoute role="faculty">
-  //         <App />
-  //       </ProtectedRoute>
-  //     ),
-  //     children: routeGenerator(facultyPaths),
-  //   },
+
   {
     path: "/login",
     element: <Login />,
   },
   {
-    path: "/change-password",
-    element: "<ChangePassword />",
+    path: "/change_password",
+    element: <ChangePassword />,
   },
   {
     path: "/register",

@@ -28,7 +28,7 @@ export default function ProfileDropDownCard({ dropdownOpen, onClose }) {
       <hr />
 
       <Link
-        to={`/admin/change-password`}
+        to={`/change_password`}
         className="flex items-center px-4 py-2 hover:bg-gray-200"
         onClick={onClose}
       >
