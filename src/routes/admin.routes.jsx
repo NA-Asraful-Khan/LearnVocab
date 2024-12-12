@@ -28,6 +28,7 @@ export const adminPaths = [
     name: "Management",
     icon: <GiSettingsKnobs />,
     path: "",
+    multimenu: true,
     children: [
       {
         name: "User Management",
