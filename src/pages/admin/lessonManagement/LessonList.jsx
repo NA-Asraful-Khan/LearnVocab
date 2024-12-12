@@ -1,65 +1,38 @@
-import { AiFillDelete } from "react-icons/ai";
 import { useState } from "react";
-import { toast } from "react-toastify";
-import { FiShieldOff } from "react-icons/fi";
-import { TbShieldFilled } from "react-icons/tb";
-import {
-  useChangeUserRoleMutation,
-  useDeleteUserMutation,
-  useGetAllUsersByPaginationQuery,
-} from "../../../redux/features/user/userManagement.api";
-import { BiEdit, BiLoader, BiPlus } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
+import { BiEdit, BiLoader, BiPlus } from "react-icons/bi";
+import {
+  useDeleteLessonMutation,
+  useGetAllLessonsByPaginationQuery,
+} from "../../../redux/features/user/lessonManagement.api";
 import Swal from "sweetalert2";
+import { AiFillDelete } from "react-icons/ai";
 
-export default function UserList() {
-  // To Find Current User
-  // const CurrentUser = useSelector(selectCurrentUser);
-  //   console.log(CurrentUser);
-
+export default function LessonList() {
   const navigate = useNavigate();
-
   const params = [];
   const [page, setPage] = useState(1);
   const pageSize = 5;
 
   // Get All User Data
-  const { data, isLoading, isFetching } = useGetAllUsersByPaginationQuery([
+  const { data, isLoading, isFetching } = useGetAllLessonsByPaginationQuery([
     { name: "limit", value: pageSize },
     { name: "page", value: page },
     { name: "sort", value: "-id" },
     ...params,
   ]);
-  //ALl Hook
-  const [handleRole] = useChangeUserRoleMutation();
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteLesson] = useDeleteLessonMutation();
+
   //userData
-  const userData = data?.data;
+  const lessonData = data?.data;
   //pagination Data
   const pagination = data?.pagination;
   const startIndex = (page - 1) * pagination?.limit;
-
-  const handleRoleChange = async (userId, newRole) => {
-    const finalRole = {
-      id: userId,
-      data: {
-        role: newRole,
-      },
-    };
-
-    await handleRole(finalRole);
-    toast.success(`User role updated to ${newRole}`);
-  };
-
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
 
-  const handleImageError = (e) => {
-    e.target.src = "/fallBack_Image.jpg";
-  };
-
-  const handleDelete = (id) => {
+  const handleDelete = (lessonId) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -72,28 +45,28 @@ export default function UserList() {
     }).then((result) => {
       if (result.isConfirmed) {
         // Perform delete action here
-        deleteUser(id);
+        deleteLesson(lessonId);
         Swal.fire("Deleted!", "Your item has been deleted.", "success");
       }
     });
   };
+
   return (
-    <div className="max-w-6xl mt-3 mx-auto">
-      <div className="mb-8 flex justify-between items-start">
+    <div className="max-w-6xl mx-auto">
+      <div className="mb-8 flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Manage Users</h1>
-          <p className="mt-2 text-gray-600">
-            Update user roles and permissions
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">Manage Lessons</h1>
+          <p className="mt-2 text-gray-600">View and manage all lessons</p>
         </div>
         <button
           onClick={() => navigate("create")}
           className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 flex items-center"
         >
           <BiPlus className="h-5 w-5 mr-2" />
-          Add New User
+          Add New Lesson
         </button>
       </div>
+
       {isLoading && isFetching ? (
         <div className="w-full text-7xl flex justify-center items-center">
           <BiLoader />
@@ -108,93 +81,56 @@ export default function UserList() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  User
+                  Lesson Number
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
+                  Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Change Role
+                  Vocabulary Count
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            {userData?.length <= 0 ? (
-              <div className="w-full text-4xl flex justify-center items-center">
+            {lessonData?.length <= 0 ? (
+              <div className="w-full text-3xl text-center flex justify-center items-center">
                 <h2>No Data To Show!</h2>
               </div>
             ) : (
               <tbody className="bg-white divide-y divide-gray-200">
-                {userData?.map((user, index) => (
+                {lessonData?.map((lesson, index) => (
                   <tr key={index}>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          <img
-                            className="h-10 w-10 rounded-full"
-                            src={user.photo}
-                            alt={user.name}
-                            onError={handleImageError}
-                          />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {user.name}
-                          </div>
-                        </div>
+                      <div className="text-sm text-gray-900">
+                        Lesson {lesson?.lessonNumber}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{user.email}</div>
+                      <div className="text-sm font-medium text-gray-900">
+                        {lesson?.name}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          user.role === "admin"
-                            ? "bg-indigo-100 text-indigo-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {user.role}
-                      </span>
+                      <div className="text-sm text-gray-900">
+                        {lesson?.vocabularyCount} words
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {user.role === "admin" ? (
+                      <div className="flex space-x-4">
+                        <Link to={`/admin/lesson_management/${lesson?._id}`}>
+                          <button className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900">
+                            <BiEdit className="h-4 w-4 mr-1" />
+                          </button>
+                        </Link>
                         <button
-                          onClick={() => handleRoleChange(user?._id, "user")}
-                          className="text-red-600 hover:text-red-900 flex items-center "
+                          className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900"
+                          onClick={() => handleDelete(lesson._id)}
                         >
-                          <FiShieldOff className="h-4 w-4 mr-1" />
-                          Remove Admin
+                          <AiFillDelete className="h-4 w-4 mr-1" />
                         </button>
-                      ) : (
-                        <button
-                          onClick={() => handleRoleChange(user?._id, "admin")}
-                          className="text-indigo-600 hover:text-indigo-900 flex items-center"
-                        >
-                          <TbShieldFilled className="h-4 w-4 mr-1" />
-                          Make Admin
-                        </button>
-                      )}
-                    </td>
-                    <td className="px-6 py-4 flex gap-1 whitespace-nowrap text-sm text-gray-500">
-                      <Link to={`/admin/user_management/${user?._id}`}>
-                        <button className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900">
-                          <BiEdit className="h-4 w-4 mr-1" />
-                        </button>
-                      </Link>
-
-                      <button
-                        className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900"
-                        onClick={() => handleDelete(user?._id)}
-                      >
-                        <AiFillDelete className="h-4 w-4 mr-1" />
-                      </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -203,7 +139,7 @@ export default function UserList() {
           </table>
 
           {/* Pagination Controls */}
-          {userData?.length !== 0 && (
+          {lessonData?.length !== 0 && (
             <div className="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200">
               <div className="flex-1 flex justify-between sm:hidden">
                 <button

@@ -1,1 +1,1 @@
-export const tagTypes = ["user"];
+export const tagTypes = ["user", "lesson"];
