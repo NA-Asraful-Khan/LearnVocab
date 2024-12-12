@@ -1,14 +1,16 @@
+import { AiFillDelete } from "react-icons/ai";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FiShieldOff } from "react-icons/fi";
 import { TbShieldFilled } from "react-icons/tb";
 import {
   useChangeUserRoleMutation,
+  useDeleteUserMutation,
   useGetAllUsersByPaginationQuery,
 } from "../../../redux/features/user/userManagement.api";
 import { BiEdit, BiLoader } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
-import { FaDeleteLeft } from "react-icons/fa6";
+import Swal from "sweetalert2";
 
 export default function UserList() {
   // To Find Current User
@@ -28,8 +30,9 @@ export default function UserList() {
     { name: "sort", value: "-id" },
     ...params,
   ]);
-
+  //ALl Hook
   const [handleRole] = useChangeUserRoleMutation();
+  const [deleteUser] = useDeleteUserMutation();
   //userData
   const userData = data?.data;
   //pagination Data
@@ -55,6 +58,25 @@ export default function UserList() {
 
   const handleImageError = (e) => {
     e.target.src = "/fallBack_Image.jpg";
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Perform delete action here
+        deleteUser(id);
+        Swal.fire("Deleted!", "Your item has been deleted.", "success");
+      }
+    });
   };
   return (
     <div className="max-w-6xl mt-3 mx-auto">
@@ -158,8 +180,11 @@ export default function UserList() {
                       </button>
                     </Link>
 
-                    <button className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900">
-                      <FaDeleteLeft className="h-4 w-4 mr-1" />
+                    <button
+                      className="text-indigo-600 hover:text-indigo-900 flex items-center rounded p-2 border border-indigo-900"
+                      onClick={() => handleDelete(user?._id)}
+                    >
+                      <AiFillDelete className="h-4 w-4 mr-1" />
                     </button>
                   </td>
                 </tr>

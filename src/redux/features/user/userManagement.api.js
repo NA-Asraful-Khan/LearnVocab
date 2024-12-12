@@ -67,7 +67,7 @@ const userManagementApi = baseApi.injectEndpoints({
     updateUser: builder.mutation({
       query: ({ data, id }) => {
         return {
-          url: `users/${id}`,
+          url: `users/update/${id}`,
           method: "PATCH",
           body: data, // Ensure `data` is a FormData object
         };
@@ -83,11 +83,11 @@ const userManagementApi = baseApi.injectEndpoints({
     }),
 
     changeUserRole: builder.mutation({
-      query: (data) => {
+      query: ({ id, data }) => {
         return {
-          url: `/users/${data?.id}`,
+          url: `/users/${id}`,
           method: "PATCH",
-          body: data?.data,
+          body: data,
         };
       },
       invalidatesTags: [

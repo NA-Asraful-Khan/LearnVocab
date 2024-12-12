@@ -3,26 +3,31 @@ import { BiLock, BiUpload, BiUser } from "react-icons/bi";
 import { MdMail } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAddUserMutation } from "../../../redux/features/user/userManagement.api";
+import {
+  useAddUserMutation,
+  useUpdateUserMutation,
+} from "../../../redux/features/user/userManagement.api";
 
-export default function UserForm() {
+export default function UserForm({ id, defaultData }) {
   const [formData, setFormData] = useState({
-    name: "User One",
-    email: "user@mail.com",
-    password: "vocabwebsite!@",
-    role: "user",
-    photo:
-      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    name: id ? defaultData?.name : "User One",
+    email: id ? defaultData?.email : "user@mail.com",
+    password: id ? "" : "vocabwebsite!@",
+    role: id ? defaultData?.role : "user",
+    photo: id
+      ? defaultData?.photo
+      : "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [register] = useAddUserMutation();
+  const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     console.log(formData);
-    const finalData = {
+    const createData = {
       pasword: formData.password,
       user: {
         name: formData.name,
@@ -30,8 +35,24 @@ export default function UserForm() {
         role: formData.role,
       },
     };
+    const updateData = {
+      name: formData.name,
+      email: formData.email,
+      role: formData.role,
+    };
     try {
-      const res = await register(finalData);
+      let res;
+
+      if (id) {
+        // Update operation
+        res = await updateUser({
+          data: updateData,
+          id: id,
+        });
+      } else {
+        // Add operation
+        res = await register(createData);
+      }
 
       if (!res.error) {
         toast.success("Registration successful!");
@@ -104,30 +125,30 @@ export default function UserForm() {
               />
             </div>
           </div>
-
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <div className="mt-1 relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <BiLock className="h-5 w-5 text-gray-400" />
+          {!id && (
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <div className="mt-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <BiLock className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  placeholder="••••••••"
+                />
               </div>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="••••••••"
-                required
-              />
             </div>
-          </div>
+          )}
 
           <div className="mt-1 relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -170,13 +191,22 @@ export default function UserForm() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Creating User..." : "Create User"}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Creating User..." : "Create User"}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate("/admin/user_management")}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </div>
     </div>
