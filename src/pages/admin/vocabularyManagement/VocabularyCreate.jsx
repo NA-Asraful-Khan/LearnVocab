@@ -1,9 +1,7 @@
+import VocabularyForm from "./VocabularyForm";
+
 const VocabularyCreate = () => {
-  return (
-    <div>
-      <h1> This is VocabularyCreate Component </h1>
-    </div>
-  );
+  return <VocabularyForm />;
 };
 
 export default VocabularyCreate;

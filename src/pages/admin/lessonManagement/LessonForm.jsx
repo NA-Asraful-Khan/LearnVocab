@@ -63,7 +63,9 @@ export default function LessonForm({ id, defaultData }) {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Add New Lesson</h1>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {id ? "Edit" : "Add"} New Lesson
+        </h1>
         <p className="mt-2 text-gray-600">Create a new lesson for students</p>
       </div>
 

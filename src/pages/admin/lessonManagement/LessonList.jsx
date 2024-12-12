@@ -14,7 +14,7 @@ export default function LessonList() {
   const [page, setPage] = useState(1);
   const pageSize = 5;
 
-  // Get All User Data
+  // Get All Lesson Data
   const { data, isLoading, isFetching } = useGetAllLessonsByPaginationQuery([
     { name: "limit", value: pageSize },
     { name: "page", value: page },
@@ -23,7 +23,7 @@ export default function LessonList() {
   ]);
   const [deleteLesson] = useDeleteLessonMutation();
 
-  //userData
+  //lessonData
   const lessonData = data?.data;
   //pagination Data
   const pagination = data?.pagination;

@@ -10,6 +10,7 @@ import LessonEdit from "../pages/admin/lessonManagement/LessonEdit";
 import VocabularyList from "../pages/admin/vocabularyManagement/VocabularyList";
 import VocabularyCreate from "../pages/admin/vocabularyManagement/VocabularyCreate";
 import VocabularyEdit from "../pages/admin/vocabularyManagement/VocabularyEdit";
+import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
 
 export const adminPaths = [
   {
@@ -20,7 +21,7 @@ export const adminPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
-    element: "<FacultyDashboard />",
+    element: <AdminDashboard />,
     icon: <BsSpeedometer2 />,
   },
   {

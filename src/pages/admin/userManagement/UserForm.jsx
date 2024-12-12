@@ -76,6 +76,14 @@ export default function UserForm({ id, defaultData }) {
   return (
     <div className="flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {id ? "Edit" : "Add"} New User
+          </h1>
+          <p className="mt-2 text-gray-600">
+            {id ? "Update" : "Create"} a new User For Application
+          </p>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label

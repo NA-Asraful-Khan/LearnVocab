@@ -94,6 +94,25 @@ const userManagementApi = baseApi.injectEndpoints({
         { type: "user" }, // Add more types as needed
       ],
     }),
+
+    getReport: builder.query({
+      query: () => {
+        return {
+          url: "/report",
+          method: "GET",
+        };
+      },
+      transformResponse: (response) => {
+        return {
+          data: response.data,
+        };
+      },
+      providesTags: [
+        { type: "user" },
+        { type: "lesson" },
+        { type: "vocabulary" },
+      ],
+    }),
   }),
 });
 
@@ -106,4 +125,5 @@ export const {
   useDeleteUserMutation,
 
   useChangeUserRoleMutation,
+  useGetReportQuery,
 } = userManagementApi;
